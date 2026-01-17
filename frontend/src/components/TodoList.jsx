@@ -4,6 +4,7 @@ function TodoList() {
   const [todos, setTodos] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [newTodo, setNewTodo] = useState("");
 
   useEffect(() => {
     async function fetchTodos() {
@@ -29,8 +30,46 @@ function TodoList() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  async function handleAddTodo(e) {
+    e.preventDefault();
+
+    if (!newTodo.trim()) return;
+
+    try {
+      const response = await fetch("http://localhost:3000/todos", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title: newTodo }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add todo");
+      }
+
+      const createdTodo = await response.json();
+
+      setTodos((prev) => [...prev, createdTodo]);
+      setNewTodo("");
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   return (
     <div>
+      <form onSubmit={handleAddTodo}>
+        <input
+          type="text"
+          value={newTodo}
+          onChange={(e) => setNewTodo(e.target.value)}
+          placeholder="Add a new todo"
+        />
+        <button type="submit">Add</button>
+      </form>
+
+
       <h2>Todos</h2>
       {todos.length === 0 ? (
         <p>No todos yet</p>
