@@ -1,0 +1,19 @@
+import sqlite3 from "sqlite3";
+import { open } from "sqlite";
+
+// Open database
+const db = await open({
+  filename: "./db/todos.db",
+  driver: sqlite3.Database,
+});
+
+// Create table if it doesn’t exist
+await db.exec(`
+  CREATE TABLE IF NOT EXISTS todos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    completed INTEGER NOT NULL DEFAULT 0
+  )
+`);
+
+export default db;

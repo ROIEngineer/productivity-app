@@ -1,24 +1,35 @@
-let todos = [];
-let nextId = 1;
+import db from "../db/database.js";
 
-export function getTodos(req, res) {
-  res.json(todos);
+export async function getTodos(req, res) {
+  try {
+    const todos = await db.all("SELECT * FROM todos");
+    res.json(todos);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch todos" });
+  }
 }
 
-export function createTodo(req, res) {
+export async function createTodo(req, res) {
   const { title } = req.body;
 
   if (!title) {
     return res.status(400).json({ error: "Title is required" });
   }
 
-  const newTodo = {
-    id: nextId++,
-    title,
-    completed: false,
-  };
+  try {
+    const result = await db.run(
+      "INSERT INTO todos (title, completed) VALUES (?, ?)",
+      [title, 0]
+    );
 
-  todos.push(newTodo);
+    const newTodo = {
+      id: result.lastID,
+      title,
+      completed: 0,
+    };
 
-  res.status(201).json(newTodo);
+    res.status(201).json(newTodo);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to create todo" });
+  }
 }
