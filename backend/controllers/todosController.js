@@ -33,3 +33,22 @@ export async function createTodo(req, res) {
     res.status(500).json({ error: "Failed to create todo" });
   }
 }
+
+export async function deleteTodo(req, res) {
+  const { id } = req.params;
+
+  try {
+    const result = await db.run(
+      "DELETE FROM todos WHERE id = ?",
+      [id]
+    );
+
+    if (result.changes === 0) {
+      return res.status(404).json({ error: "Todo not found" });
+    }
+
+    res.status(204).end();
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete todo" });
+  }
+}

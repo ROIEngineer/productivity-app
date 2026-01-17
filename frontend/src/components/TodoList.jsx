@@ -58,6 +58,23 @@ function TodoList() {
     }
   }
 
+  async function handleDeleteTodo(id) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/todos/${id}`,
+        { method: "DELETE" }
+      );
+
+      if (!response.ok && response.status !== 204) {
+        throw new Error("Failed to delete todo");
+      }
+      
+      setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+  
   return (
     <div>
       <form onSubmit={handleAddTodo}>
@@ -77,7 +94,7 @@ function TodoList() {
       ) : (
         <ul>
           {todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} />
+            <TodoItem key={todo.id} todo={todo} onDelete={handleDeleteTodo}/>
           ))}
         </ul>
       )}
