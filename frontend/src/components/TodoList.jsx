@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import TodoItem from "./TodoItem";
 
 function TodoList() {
   const [todos, setTodos] = useState([]);
@@ -76,7 +77,7 @@ function TodoList() {
       ) : (
         <ul>
           {todos.map((todo) => (
-            <li key={todo.id}>{todo.title}</li>
+            <TodoItem key={todo.id} todo={todo} />
           ))}
         </ul>
       )}
