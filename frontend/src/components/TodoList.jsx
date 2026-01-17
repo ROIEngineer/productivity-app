@@ -31,6 +31,7 @@ function TodoList() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+  {/* Add Todo */}
   async function handleAddTodo(e) {
     e.preventDefault();
 
@@ -58,6 +59,7 @@ function TodoList() {
     }
   }
 
+  {/* Delete Todo */}
   async function handleDeleteTodo(id) {
     try {
       const response = await fetch(
@@ -70,6 +72,55 @@ function TodoList() {
       }
       
       setTodos((prev) => prev.filter((todo) => todo.id !== id));
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  {/* Toggle Todo */}
+  async function handleToggleTodo(todo) {
+    try {
+      const response = await fetch(
+        `http://localhost:3000/todos/${todo.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            completed: todo.completed ? 0 : 1,
+          }),
+        }
+      );
+
+      const updated = await response.json();
+
+      setTodos((prev) =>
+        prev.map((t) => (t.id === updated.id ? updated : t))
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
+  {/* Edit Toggle */}
+  async function handleEditTodo(todo) {
+    const newTitle = prompt("Edit todo", todo.title);
+    if (!newTitle) return;
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/todos/${todo.id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: newTitle }),
+        }
+      );
+
+      const updated = await response.json();
+
+      setTodos((prev) =>
+        prev.map((t) => (t.id === updated.id ? updated : t))
+      );
     } catch (err) {
       setError(err.message);
     }
@@ -94,7 +145,7 @@ function TodoList() {
       ) : (
         <ul>
           {todos.map((todo) => (
-            <TodoItem key={todo.id} todo={todo} onDelete={handleDeleteTodo}/>
+            <TodoItem key={todo.id} todo={todo} onDelete={handleDeleteTodo} onToggle={handleToggleTodo} onEdit={handleEditTodo}/>
           ))}
         </ul>
       )}

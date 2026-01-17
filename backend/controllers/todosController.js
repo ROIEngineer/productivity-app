@@ -52,3 +52,35 @@ export async function deleteTodo(req, res) {
     res.status(500).json({ error: "Failed to delete todo" });
   }
 }
+
+export async function updateTodo(req, res) {
+  const { id } = req.params;
+  const { title, completed } = req.body;
+
+  try {
+    const existing = await db.get(
+      "SELECT * FROM todos WHERE id = ?",
+      [id]
+    );
+
+    if (!existing) {
+      return res.status(404).json({ error: "Todo not found" });
+    }
+
+    const updatedTitle = title ?? existing.title;
+    const updatedCompleted = completed ?? existing.completed;
+
+    await db.run(
+      "UPDATE todos SET title = ?, completed = ? WHERE id = ?",
+      [updatedTitle, updatedCompleted, id]
+    );
+
+    res.json({
+      id,
+      title: updatedTitle,
+      completed: updatedCompleted,
+    });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update todo" });
+  }
+}
