@@ -10,7 +10,7 @@ function TodoItem({ todo, onDelete, onToggle, onEdit }) {
       {todo.title}
 
       <button onClick={() => onEdit(todo)}>Edit</button>
-      <button onClick={() => onDelete(todo.id)}>Delete</button>
+      <button className="delete" onClick={() => onDelete(todo.id)}>Delete</button>
     </li>
   );
 }
