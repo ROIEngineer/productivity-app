@@ -4,6 +4,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import TodoList from "./components/TodoList";
 import PomodoroTimer from "./components/PomodoroTimer";
+import NotesList from "./components/NotesList";
 
 function App() {
 
@@ -11,6 +12,7 @@ function App() {
     <main>
       <PomodoroTimer />
       <TodoList />
+      <NotesList />
     </main>
   );
 }
