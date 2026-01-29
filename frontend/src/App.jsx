@@ -1,16 +1,23 @@
-import { useState } from 'react'
-import './App.css'
+import './styles.css';
 import TodoList from "./components/TodoList";
 import PomodoroTimer from "./components/PomodoroTimer";
 import NotesList from "./components/NotesList";
 
 function App() {
   return (
-    <main>
-      <PomodoroTimer />
-      <TodoList />
-      <NotesList />
-    </main>
+    <div className="app">
+      <main>
+        <div className="card pomodoro">
+          <PomodoroTimer />
+        </div>
+        <div className="card">
+          <TodoList />
+        </div>
+        <div className="card">
+          <NotesList />
+        </div>
+      </main>
+    </div>
   );
 }
 

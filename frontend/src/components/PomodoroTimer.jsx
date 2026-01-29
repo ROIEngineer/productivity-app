@@ -41,19 +41,19 @@ function PomodoroTimer() {
 
   return (
     <section>
-      <h2>Pomodoro Timer</h2>
+      <h2 style={{ margin: '0 0 1rem 0' }}>Pomodoro Timer</h2>
 
-      <p style={{ fontSize: "2rem" }}>
+      <p style={{ fontSize: "3rem", fontWeight: "bold", textAlign: 'center', margin: '1rem 0' }}>
         {minutes}:{seconds.toString().padStart(2, "0")}
       </p>
 
-      <div>
+      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
         {!isRunning ? (
           <button onClick={start}>Start</button>
         ) : (
-          <button onClick={pause}>Pause</button>
+          <button className="secondary" onClick={pause}>Pause</button>
         )}
-        <button onClick={reset}>Reset</button>
+        <button className="secondary" onClick={reset}>Reset</button>
       </div>
     </section>
   );

@@ -56,7 +56,7 @@ function NotesList() {
 
   return (
     <section>
-      <h2>Notes</h2>
+      <h2 style={{ margin: '0 0 1rem 0' }}>Notes</h2>
 
       <form onSubmit={addNote}>
         <textarea
@@ -67,7 +67,7 @@ function NotesList() {
         <button type="submit">Add Note</button>
       </form>
 
-      <ul>
+      <ul style={{ marginTop: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {notes.map((note) => (
           <NoteItem
             key={note.id}

@@ -31,7 +31,6 @@ function TodoList() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  {/* Add Todo */}
   async function handleAddTodo(e) {
     e.preventDefault();
 
@@ -59,7 +58,6 @@ function TodoList() {
     }
   }
 
-  {/* Delete Todo */}
   async function handleDeleteTodo(id) {
     try {
       const response = await fetch(
@@ -77,7 +75,6 @@ function TodoList() {
     }
   }
 
-  {/* Toggle Todo */}
   async function handleToggleTodo(todo) {
     try {
       const response = await fetch(
@@ -101,7 +98,6 @@ function TodoList() {
     }
   }
 
-  {/* Edit Toggle */}
   async function handleEditTodo(todo) {
     const newTitle = prompt("Edit todo", todo.title);
     if (!newTitle) return;
@@ -128,22 +124,23 @@ function TodoList() {
   
   return (
     <div>
-      <form onSubmit={handleAddTodo}>
-        <input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Add a new todo"
-        />
-        <button type="submit">Add</button>
-      </form>
+      <div style={{ marginBottom: '1rem' }}>
+        <h2 style={{ margin: '0 0 1rem 0' }}>Todos</h2>
+        <form onSubmit={handleAddTodo}>
+          <input
+            type="text"
+            value={newTodo}
+            onChange={(e) => setNewTodo(e.target.value)}
+            placeholder="Add a new todo"
+          />
+          <button type="submit">Add</button>
+        </form>
+      </div>
 
-
-      <h2>Todos</h2>
       {todos.length === 0 ? (
-        <p>No todos yet</p>
+        <p style={{ textAlign: 'center', opacity: 0.6 }}>No todos yet</p>
       ) : (
-        <ul>
+        <ul style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
           {todos.map((todo) => (
             <TodoItem key={todo.id} todo={todo} onDelete={handleDeleteTodo} onToggle={handleToggleTodo} onEdit={handleEditTodo}/>
           ))}
