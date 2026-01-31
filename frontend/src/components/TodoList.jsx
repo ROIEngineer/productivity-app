@@ -31,6 +31,8 @@ function TodoList() {
   if (isLoading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
+
+  {/* ADD TODO */}
   async function handleAddTodo(e) {
     e.preventDefault();
 
@@ -58,6 +60,7 @@ function TodoList() {
     }
   }
 
+  {/* DELETE TODO */}
   async function handleDeleteTodo(id) {
     try {
       const response = await fetch(
@@ -75,6 +78,7 @@ function TodoList() {
     }
   }
 
+  {/* TOGGLE TODO */}
   async function handleToggleTodo(todo) {
     try {
       const response = await fetch(
@@ -98,6 +102,7 @@ function TodoList() {
     }
   }
 
+  {/* EDIT TODO */}
   async function handleEditTodo(todo) {
     const newTitle = prompt("Edit todo", todo.title);
     if (!newTitle) return;
