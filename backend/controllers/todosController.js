@@ -76,7 +76,7 @@ export async function updateTodo(req, res) {
     );
 
     res.json({
-      id,
+      id: Number(id),
       title: updatedTitle,
       completed: updatedCompleted,
     });

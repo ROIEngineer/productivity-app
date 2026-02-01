@@ -7,7 +7,7 @@ const db = await open({
   driver: sqlite3.Database,
 });
 
-// Create Todos table if it doesn’t exist
+// Create table if it doesn’t exist
 await db.exec(`
   CREATE TABLE IF NOT EXISTS todos (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,7 +16,6 @@ await db.exec(`
   )
 `);
 
-// Create Notes table if it doesn't exist
 await db.exec(`
   CREATE TABLE IF NOT EXISTS notes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -24,6 +23,5 @@ await db.exec(`
     updated_at TEXT NOT NULL
   )
 `);
-
 
 export default db;
